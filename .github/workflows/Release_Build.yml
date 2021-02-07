@@ -17,7 +17,7 @@ jobs:
         with:
           ref: master
       - name: Build image
-        run: ./kas-docker build  meta-iot2000/kas-example.yml | tee -a ./build_example-image.log
+        run:  wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build  meta-iot2000/kas-example.yml | tee -a ./build_example-image.log
       - name: Upload image
         uses: actions/upload-artifact@v2
         with:
@@ -39,7 +39,7 @@ jobs:
         with:
           ref: master
       - name: Build RT image
-        run: ./kas-docker build  meta-iot2000/kas-example-rt.yml 2>&1 | tee -a ./build_RT-example-image.log
+        run: wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build  meta-iot2000/kas-example-rt.yml 2>&1 | tee -a ./build_RT-example-image.log
       - name: Upload image
         uses: actions/upload-artifact@v2
         with:
@@ -51,8 +51,8 @@ jobs:
           name: iot2000-example-image-RT-build-log
           path: ./build_RT-example-image.log
           
-  iot2000-sdk_windows:
-    name: IOT2000-SDK Windows
+  iot2000-SDK-Build:
+    name: IOT2000-SDK Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -60,9 +60,9 @@ jobs:
         with:
           ref: master
       - name: Build Windows SDK
-        run: ./kas-docker build meta-iot2000/kas-sdk-windows-i586.yml  2>&1 | tee -a  ./build_windows_SDK.log && ls -l build/tmp/deploy/images/iot2000/
+        run: wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build meta-iot2000/kas-sdk-windows-i586.yml  2>&1 | tee -a  ./build_windows_SDK.log && ls -l build/tmp/deploy/images/iot2000/
       - name: Build Linux SDK
-        run: ./kas-docker build meta-iot2000/kas-sdk-linux-x64.yml  2>&1 | tee -a  ./build_linux_SDK.log 
+        run: wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build meta-iot2000/kas-sdk-linux-x64.yml  2>&1 | tee -a  ./build_linux_SDK.log 
       - name: Archive windows sdk
         uses: actions/upload-artifact@v2
         with:

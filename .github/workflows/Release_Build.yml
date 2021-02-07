@@ -1,0 +1,83 @@
+name: CI_Release_Build
+
+on:
+  workflow_dispatch:
+  watch:
+    types: started
+  repository_dispatch:
+    types: relase_build
+    
+jobs:
+  iot2000_example-image:
+    name: example image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Build image
+        run: ./kas-docker build  meta-iot2000/kas-example.yml | tee -a ./build_example-image.log
+      - name: Upload image
+        uses: actions/upload-artifact@v2
+        with:
+          name: iot2000-example-image
+          path: build/tmp/deploy/images/iot2000/iot2000-example-image-iot2000-*.rootfs.wic
+      - name: Upload example build log
+        uses: actions/upload-artifact@v2
+        with:
+          name: iot2000-example-image-build-log
+          path: ./build_example-image.log
+          
+
+  iot2000-rt-example-image:
+    name: RT example image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Build RT image
+        run: ./kas-docker build  meta-iot2000/kas-example-rt.yml 2>&1 | tee -a ./build_RT-example-image.log
+      - name: Upload image
+        uses: actions/upload-artifact@v2
+        with:
+          name: iot2000-example-image-rt
+          path: build/tmp/deploy/images/iot2000/iot2000-example-image-rt-iot2000-*.rootfs.wic
+      - name: Upload RT example build log
+        uses: actions/upload-artifact@v2
+        with:
+          name: iot2000-example-image-RT-build-log
+          path: ./build_RT-example-image.log
+          
+  iot2000-sdk_windows:
+    name: IOT2000-SDK Windows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Build Windows SDK
+        run: ./kas-docker build meta-iot2000/kas-sdk-windows-i586.yml  2>&1 | tee -a  ./build_windows_SDK.log && ls -l build/tmp/deploy/images/iot2000/
+      - name: Build Linux SDK
+        run: ./kas-docker build meta-iot2000/kas-sdk-linux-x64.yml  2>&1 | tee -a  ./build_linux_SDK.log 
+      - name: Archive windows sdk
+        uses: actions/upload-artifact@v2
+        with:
+          name: iot2000-windows-sdk
+          path: build/tmp/deploy/sdk/poky-iot2000-glibc-i686-mingw32-iot2000-example-image-i586-*.tar.xz
+      - name: Upload windows and linux sdk build log
+        uses: actions/upload-artifact@v2
+        with:
+          name: iot2000-windows-and-linux-sdk-build-log
+          path: ./*_SDK.log
+      - name: Archive linux sdk
+        uses: actions/upload-artifact@v2
+        with:
+          name: iot2000-linux-sdk
+          path: build/tmp/deploy/sdk/poky-iot2000-glibc-x86_64-*.sh
+
+          
+  

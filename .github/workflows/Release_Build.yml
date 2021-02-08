@@ -17,7 +17,7 @@ jobs:
         with:
           ref: master
       - name: Build image
-        run:  cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && pwd  && ./kas-docker build  sync_meta-iot2000/kas-example.yml | tee -a ./build_example-image.log && ls -l /home/runner/work/sync_meta-iot2000/build/tmp/deploy/images/iot2000/
+        run:  cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && pwd  && ./kas-docker build  sync_meta-iot2000/kas-example.yml  2>&1 | tee -a ./build_example-image.log && ls -l ./build/tmp/deploy/images/iot2000/  2>&1 | tee -a ./build_example-image.log
       # - name: Upload image
        # uses: actions/upload-artifact@v2
        # with:
@@ -39,7 +39,7 @@ jobs:
         with:
           ref: master
       - name: Build RT image
-        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build  sync_meta-iot2000/kas-example-rt.yml 2>&1 | tee -a ./build_RT-example-image.log && ls -l /home/runner/work/sync_meta-iot2000/build/tmp/deploy/images/iot2000/
+        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build  sync_meta-iot2000/kas-example-rt.yml 2>&1 | tee -a ./build_RT-example-image.log && ls -l ./build/tmp/deploy/images/iot2000/   2>&1 | tee -a ./build_RT-example-image.log
       #- name: Upload image
       #  uses: actions/upload-artifact@v2
       #  with:
@@ -60,9 +60,9 @@ jobs:
         with:
           ref: master
       - name: Build Windows SDK
-        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build sync_meta-iot2000/kas-sdk-windows-i586.yml  2>&1 | tee -a  ./build_windows_SDK.log && ls -l /home/runner/work/sync_meta-iot2000/build/tmp/deploy/sdk/
+        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build sync_meta-iot2000/kas-sdk-windows-i586.yml  2>&1 | tee -a  ./build_windows_SDK.log && ls -al ./build/tmp/deploy/sdk/ 2>&1 | tee -a  ./build_windows_SDK.log
       - name: Build Linux SDK
-        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build  sync_meta-iot2000/kas-sdk-linux-x64.yml  2>&1 | tee -a  ./build_linux_SDK.log  && ls -l /home/runner/work/sync_meta-iot2000/build/tmp/deploy/sdk/
+        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build  sync_meta-iot2000/kas-sdk-linux-x64.yml  2>&1 | tee -a  ./build_linux_SDK.log  && ls -al ./build/tmp/deploy/sdk/ 2>&1 | tee -a  ./build_linux_SDK.log 
       #- name: Archive windows sdk
       #  uses: actions/upload-artifact@v2
       #  with:

@@ -17,12 +17,12 @@ jobs:
         with:
           ref: master
       - name: Build image
-        run:  cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build  sync_meta-iot2000/kas-example.yml | tee -a ./build_example-image.log
-      - name: Upload image
-        uses: actions/upload-artifact@v2
-        with:
-          name: iot2000-example-image
-          path: ../build/tmp/deploy/images/iot2000/iot2000-example-image-iot2000-*.rootfs.wic
+        run:  cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && pwd  && ./kas-docker build  sync_meta-iot2000/kas-example.yml | tee -a ./build_example-image.log && ls -l /home/runner/work/sync_meta-iot2000/build/tmp/deploy/images/iot2000/
+      # - name: Upload image
+       # uses: actions/upload-artifact@v2
+       # with:
+       #   name: iot2000-example-image
+       #   path: ../build/tmp/deploy/images/iot2000/iot2000-example-image-iot2000-*.rootfs.wic
       - name: Upload example build log
         uses: actions/upload-artifact@v2
         with:
@@ -39,12 +39,12 @@ jobs:
         with:
           ref: master
       - name: Build RT image
-        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build  sync_meta-iot2000/kas-example-rt.yml 2>&1 | tee -a ./build_RT-example-image.log
-      - name: Upload image
-        uses: actions/upload-artifact@v2
-        with:
-          name: iot2000-example-image-rt
-          path: ../build/tmp/deploy/images/iot2000/iot2000-example-image-rt-iot2000-*.rootfs.wic
+        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build  sync_meta-iot2000/kas-example-rt.yml 2>&1 | tee -a ./build_RT-example-image.log && ls -l /home/runner/work/sync_meta-iot2000/build/tmp/deploy/images/iot2000/
+      #- name: Upload image
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: iot2000-example-image-rt
+      #    path: ../build/tmp/deploy/images/iot2000/iot2000-example-image-rt-iot2000-*.rootfs.wic
       - name: Upload RT example build log
         uses: actions/upload-artifact@v2
         with:
@@ -60,24 +60,24 @@ jobs:
         with:
           ref: master
       - name: Build Windows SDK
-        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build sync_meta-iot2000/kas-sdk-windows-i586.yml  2>&1 | tee -a  ./build_windows_SDK.log && ls -l build/tmp/deploy/images/iot2000/
+        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build sync_meta-iot2000/kas-sdk-windows-i586.yml  2>&1 | tee -a  ./build_windows_SDK.log && ls -l /home/runner/work/sync_meta-iot2000/build/tmp/deploy/sdk/
       - name: Build Linux SDK
-        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build  sync_meta-iot2000/kas-sdk-linux-x64.yml  2>&1 | tee -a  ./build_linux_SDK.log 
-      - name: Archive windows sdk
-        uses: actions/upload-artifact@v2
-        with:
-          name: iot2000-windows-sdk
-          path: ../build/tmp/deploy/sdk/poky-iot2000-glibc-i686-mingw32-iot2000-example-image-i586-*.tar.xz
+        run: cd ../ && wget https://raw.githubusercontent.com/siemens/kas/2.0/kas-docker && chmod a+x kas-docker && ./kas-docker build  sync_meta-iot2000/kas-sdk-linux-x64.yml  2>&1 | tee -a  ./build_linux_SDK.log  && ls -l /home/runner/work/sync_meta-iot2000/build/tmp/deploy/sdk/
+      #- name: Archive windows sdk
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: iot2000-windows-sdk
+      #    path: ../build/tmp/deploy/sdk/poky-iot2000-glibc-i686-mingw32-iot2000-example-image-i586-*.tar.xz
       - name: Upload windows and linux sdk build log
         uses: actions/upload-artifact@v2
         with:
           name: iot2000-windows-and-linux-sdk-build-log
           path: ../*_SDK.log
-      - name: Archive linux sdk
-        uses: actions/upload-artifact@v2
-        with:
-          name: iot2000-linux-sdk
-          path: ../build/tmp/deploy/sdk/poky-iot2000-glibc-x86_64-*.sh
+      #- name: Archive linux sdk
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: iot2000-linux-sdk
+      #    path: ../build/tmp/deploy/sdk/poky-iot2000-glibc-x86_64-*.sh
 
           
   
